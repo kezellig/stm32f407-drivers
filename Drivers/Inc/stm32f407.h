@@ -178,7 +178,7 @@ typedef struct
 
 
 // Clock enable macros for SYSCFG - APB2
-#define SYSCFG_PCLK_EN()			(RCC->APB2ENR |= (1 << 14))
+#define SYSCFG_PCLK_EN()			(RCC->APB2EgNR |= (1 << 14))
 // Clock disable macros for SYSCFG
 #define SYSCFG_PCLK_DI()			(RCC->APB2ENR &= ~(1 << 14))
 
