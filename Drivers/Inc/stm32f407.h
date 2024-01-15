@@ -188,5 +188,7 @@ typedef struct
 #define DISABLED					0
 #define SET							ENABLED
 #define RESET						DISABLED
+#define GPIO_PIN_SET				SET
+#define GPIO_PIN_RESET				RESET
 
 #endif /* INC_STM32F407_DRIVERS_H_ */
