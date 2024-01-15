@@ -182,4 +182,11 @@ typedef struct
 // Clock disable macros for SYSCFG
 #define SYSCFG_PCLK_DI()			(RCC->APB2ENR &= ~(1 << 14))
 
+
+// Other macros
+#define ENABLED 					1
+#define DISABLED					0
+#define SET							ENABLED
+#define RESET						DISABLED
+
 #endif /* INC_STM32F407_DRIVERS_H_ */
