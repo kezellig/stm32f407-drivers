@@ -39,9 +39,9 @@ void GPIO_DeInit(GPIO_RegDef_t *p_GPIOx); // We don't need additional configs to
 
 // Data R/W
 uint8_t GPIO_ReadFromInputPin(GPIO_RegDef_t *p_GPIOx, uint8_t PinNumber);
-uint8_t GPIO_ReadFromInputPort(GPIO_RegDef_t *p_GPIOx);
+uint16_t GPIO_ReadFromInputPort(GPIO_RegDef_t *p_GPIOx);
 void GPIO_WriteToOutputPin(GPIO_RegDef_t *p_GPIOx, uint8_t PinNumber, uint8_t Value);
-void GPIO_WriteToOutputPort(GPIO_RegDef_t *p_GPIOx, uint8_t Value);
+void GPIO_WriteToOutputPort(GPIO_RegDef_t *p_GPIOx, uint16_t Value);
 void GPIO_ToggleOutputPin(GPIO_RegDef_t *p_GPIOx, uint8_t PinNumber);
 
 
