@@ -112,9 +112,30 @@ void GPIO_Init(GPIO_Handle_t *p_GPIOHandle) {
 
 /**
  * Resets a GPIO port
- * @param: Base address of GPIO port
+ * @param: Base address of a GPIO port
  */
 void GPIO_DeInit(GPIO_RegDef_t *p_GPIOx) {
+	// Reset all registers of the GPIO port
+
+	if (p_GPIOx == GPIOA) {
+		GPIOA_REG_RESET();
+	} else if (p_GPIOx == GPIOB) {
+		GPIOB_REG_RESET();
+	} else if (p_GPIOx == GPIOC) {
+		GPIOC_REG_RESET();
+	} else if (p_GPIOx == GPIOD) {
+		GPIOD_REG_RESET();
+	} else if (p_GPIOx == GPIOE) {
+		GPIOE_REG_RESET();
+	} else if (p_GPIOx == GPIOF) {
+		GPIOF_REG_RESET();
+	} else if (p_GPIOx == GPIOG) {
+		GPIOG_REG_RESET();
+	} else if (p_GPIOx == GPIOH) {
+		GPIOH_REG_RESET();
+	} else if (p_GPIOx == GPIOI) {
+		GPIOI_REG_RESET();
+	}
 
 }
 
@@ -125,11 +146,15 @@ void GPIO_DeInit(GPIO_RegDef_t *p_GPIOx) {
  * @param: Number of pin to read from
  */
 uint8_t GPIO_ReadFromInputPin(GPIO_RegDef_t *p_GPIOx, uint8_t PinNumber) {
-
+	uint8_t value;
+	value = (uint8_t)((p_GPIOx->IDR >> PinNumber) & 0x00000001 ); // Move the value to LSB position
+	return value; // 0 or 1
 }
 
 uint16_t GPIO_ReadFromInputPort(GPIO_RegDef_t *p_GPIOx) {
-
+	uint16_t values;
+	values = (uint16_t)p_GPIOx->IDR; // Simply return the entire register
+	return values;
 }
 
 void GPIO_WriteToOutputPin(GPIO_RegDef_t *p_GPIOx, uint8_t PinNumber, uint8_t Value) {
