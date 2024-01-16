@@ -69,8 +69,10 @@ void GPIO_Init(GPIO_Handle_t *p_GPIOHandle) {
 		// Retrieve mode: each pin takes two bit fields, hence multiply pin no. by 2
 		temp = (p_GPIOHandle->GPIO_PinConfig.GPIO_PinMode << (2 *p_GPIOHandle->GPIO_PinConfig.GPIO_PinNumber));
 
+		// Clear the register bits first (00) by negating 11
 		// Store our mode in MODER - port mode register
-		p_GPIOHandle->p_GPIOx->MODER = temp;
+		p_GPIOHandle->p_GPIOx->MODER &= ~(0x3 << p_GPIOHandle->GPIO_PinConfig.GPIO_PinNumber);
+		p_GPIOHandle->p_GPIOx->MODER |= temp;
 
 	} else {
 
@@ -79,22 +81,32 @@ void GPIO_Init(GPIO_Handle_t *p_GPIOHandle) {
 
 	// Speed config - 2 bit fields
 	temp = (p_GPIOHandle->GPIO_PinConfig.GPIO_PinSpeed << (2 *p_GPIOHandle->GPIO_PinConfig.GPIO_PinNumber));
-	p_GPIOHandle->p_GPIOx->OSPEEDR = temp;
+	p_GPIOHandle->p_GPIOx->OSPEEDR &= ~(0x3 << p_GPIOHandle->GPIO_PinConfig.GPIO_PinNumber);
+	p_GPIOHandle->p_GPIOx->OSPEEDR |= temp;
 	temp = 0;
 
 	// PUPD config -  2 bit fields
 	temp = (p_GPIOHandle->GPIO_PinConfig.GPIO_PinPuPdControl << (2 *p_GPIOHandle->GPIO_PinConfig.GPIO_PinNumber));
-	p_GPIOHandle->p_GPIOx->PUPDR = temp;
+	p_GPIOHandle->p_GPIOx->PUPDR &= ~(0x3 << p_GPIOHandle->GPIO_PinConfig.GPIO_PinNumber);
+	p_GPIOHandle->p_GPIOx->PUPDR |= temp;
 	temp = 0;
 
+	// Clear register bit (0) by negating 1
 	// Output type config - 1 bit field
 	temp = (p_GPIOHandle->GPIO_PinConfig.GPIO_PinOPType << p_GPIOHandle->GPIO_PinConfig.GPIO_PinNumber);
-	p_GPIOHandle->p_GPIOx->OTYPER = temp;
+	p_GPIOHandle->p_GPIOx->OTYPER &= ~(0x1 << p_GPIOHandle->GPIO_PinConfig.GPIO_PinNumber);
+	p_GPIOHandle->p_GPIOx->OTYPER |= temp;
 	temp = 0;
 
 	// Alternate function config
 	if (p_GPIOHandle->GPIO_PinConfig.GPIO_PinMode == GPIO_MODE_ALTFN) {
 		// Do something with alt. fun. registers
+		uint32_t temp1, temp2;
+
+		temp1 = p_GPIOHandle->GPIO_PinConfig.GPIO_PinNumber / 8;
+		temp2 = p_GPIOHandle->GPIO_PinConfig.GPIO_PinNumber % 8;
+		p_GPIOHandle->p_GPIOx->AFR[temp1] &= ~(0xF << (4 *temp2));
+		p_GPIOHandle->p_GPIOx->AFR[temp1] |= (p_GPIOHandle->GPIO_PinConfig.GPIO_PinAltFunMode << (4 *temp2));
 	}
 }
 
