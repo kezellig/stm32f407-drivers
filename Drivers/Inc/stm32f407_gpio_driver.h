@@ -19,7 +19,7 @@ typedef struct
 	uint8_t GPIO_PinAltFunMode; // Alternative function mode
 } GPIO_PinConfig_t;
 
-// zGPIO pin handle - address and config settings
+// GPIO pin handle - address and config settings
 typedef struct
 {
 	GPIO_RegDef_t *p_GPIOx; // Holds base address of the GPIO port to which pin belongs
