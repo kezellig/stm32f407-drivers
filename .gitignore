@@ -1,0 +1,5 @@
+*.ld
+.metadata/
+.settings/
+Debug/
+Release/
