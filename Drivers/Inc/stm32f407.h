@@ -74,7 +74,7 @@
 #define USART1_BASEADDR				(APB2PERIPH_BASEADDR + 0x1000)
 #define USART6_BASEADDR				(APB2PERIPH_BASEADDR + 0x1400)
 
-#define EXT1_BASEADDR				(APB2PERIPH_BASEADDR + 0x3C00)
+#define EXTI_BASEADDR				(APB2PERIPH_BASEADDR + 0x3C00)
 #define SYSCFG_BASEADDR				(APB2PERIPH_BASEADDR + 0x3800)
 
 
@@ -130,6 +130,17 @@ typedef struct
 } RCC_RegDef_t;
 
 
+/*** EXTI configuration registers ***/
+typedef struct {
+	__vo uint32_t IMR;
+	__vo uint32_t EMR;
+	__vo uint32_t RTSR;
+	__vo uint32_t FTSR;
+	__vo uint32_t SWIER;
+	__vo uint32_t PR;
+} EXTI_RegDef_t;
+
+
 /*** GPIO port register pointers ***/
 #define GPIOA						((GPIO_RegDef_t*) GPIOA_BASEADDR)
 #define GPIOB						((GPIO_RegDef_t*) GPIOB_BASEADDR)
@@ -144,6 +155,7 @@ typedef struct
 
 /*** RCC registers pointer ***/
 #define RCC							((RCC_RegDef_t*) RCC_BASEADDR)
+#define EXTI						((EXTI_RegDef_t*) EXTI_BASEADDR)
 
 
 /*** Peripheral clock enable pointers ***/
