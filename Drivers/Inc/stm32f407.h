@@ -12,6 +12,63 @@
 #define __vo volatile
 
 
+/*** ARM Cortex-M4 PROCESSOR SPECIFIC MACROS ***/
+/*** NVIC Set-enable register addresses ***/
+#define NVIC_ISER0_BASEADDR			0xE000E100U
+#define NVIC_ISER1_BASEADDR			0xE000E104U
+#define NVIC_ISER2_BASEADDR			0xE000E108U
+#define NVIC_ISER3_BASEADDR			0xE000E10CU
+#define NVIC_ISER4_BASEADDR			0xE000E110U
+#define NVIC_ISER5_BASEADDR			0xE000E114U
+#define NVIC_ISER6_BASEADDR			0xE000E118U
+#define NVIC_ISER7_BASEADDR			0xE000E11CU
+
+
+/*** NVIC Clear-enable register addresses ***/
+#define NVIC_ICER0_BASEADDR			0xE000E180U
+#define NVIC_ICER1_BASEADDR			0xE000E184U
+#define NVIC_ICER2_BASEADDR			0xE000E188U
+#define NVIC_ICER3_BASEADDR			0xE000E18CU
+#define NVIC_ICER4_BASEADDR			0xE000E190U
+#define NVIC_ICER5_BASEADDR			0xE000E194U
+#define NVIC_ICER6_BASEADDR			0xE000E198U
+#define NVIC_ICER7_BASEADDR			0xE000E19CU
+
+
+/*** NVIC Priority register addresses (60 interrupts) ***/
+#define NVIC_IPR0_BASEADDR			0xE000E400U
+#define NVIC_IPR1_BASEADDR			0xE000E404U
+#define NVIC_IPR2_BASEADDR			0xE000E408U
+#define NVIC_IPR3_BASEADDR			0xE000E40CU
+#define NVIC_IPR4_BASEADDR			0xE000E410U
+#define NVIC_IPR5_BASEADDR			0xE000E414U
+#define NVIC_IPR6_BASEADDR			0xE000E418U
+#define NVIC_IPR7_BASEADDR			0xE000E41CU
+
+
+/*** NVIC Set-enable registers ***/
+#define NVIC_ISER0					((__vo uint32_t*) NVIC_ISER0_BASEADDR)
+#define NVIC_ISER1					((__vo uint32_t*) NVIC_ISER0_BASEADDR)
+#define NVIC_ISER2					((__vo uint32_t*) NVIC_ISER0_BASEADDR)
+#define NVIC_ISER3					((__vo uint32_t*) NVIC_ISER0_BASEADDR)
+#define NVIC_ISER4					((__vo uint32_t*) NVIC_ISER0_BASEADDR)
+#define NVIC_ISER5					((__vo uint32_t*) NVIC_ISER0_BASEADDR)
+#define NVIC_ISER6					((__vo uint32_t*) NVIC_ISER0_BASEADDR)
+#define NVIC_ISER7					((__vo uint32_t*) NVIC_ISER0_BASEADDR)
+
+
+/*** NVIC Clear-enable registers ***/
+#define NVIC_ICER0					((__vo uint32_t*) NVIC_ICER0_BASEADDR)
+#define NVIC_ICER1					((__vo uint32_t*) NVIC_ICER1_BASEADDR)
+#define NVIC_ICER2					((__vo uint32_t*) NVIC_ICER2_BASEADDR)
+#define NVIC_ICER3					((__vo uint32_t*) NVIC_ICER3_BASEADDR)
+#define NVIC_ICER4					((__vo uint32_t*) NVIC_ICER4_BASEADDR)
+#define NVIC_ICER5					((__vo uint32_t*) NVIC_ICER5_BASEADDR)
+#define NVIC_ICER6					((__vo uint32_t*) NVIC_ICER6_BASEADDR)
+#define NVIC_ICER7					((__vo uint32_t*) NVIC_ICER7_BASEADDR)
+
+
+/*** MCU SPECIFIC MACROS ***/
 /*** Flash addresses of MCU memories, e.g. Flash, SRAM1, SRAM2, ROM ***/
 #define FLASH_BASEADRR				0x08000000U // Sector 0 start
 #define ROM_BASEADDR				0x1FFF0000U // System memory start
@@ -141,6 +198,17 @@ typedef struct {
 } EXTI_RegDef_t;
 
 
+/*** SYSCFG configuration registers ***/
+typedef struct {
+	__vo uint32_t MEMRMP;			// SYSCFG memory remap register
+	__vo uint32_t PMC;				// SYSCFG peripheral mode configuration register
+	__vo uint32_t EXTICR[4];		// SYSCFG external interrupt configuration register 1-4
+	uint32_t RESERVED1[2];
+	__vo uint32_t CMPCR;			// Compensation cell control register
+	uint32_t RESERVED2[3];
+} SYSCFG_RegDef_t;
+
+
 /*** GPIO port register pointers ***/
 #define GPIOA						((GPIO_RegDef_t*) GPIOA_BASEADDR)
 #define GPIOB						((GPIO_RegDef_t*) GPIOB_BASEADDR)
@@ -153,12 +221,13 @@ typedef struct {
 #define GPIOI						((GPIO_RegDef_t*) GPIOI_BASEADDR)
 
 
-/*** RCC registers pointer ***/
+/*** RCC, EXTI registers pointers ***/
 #define RCC							((RCC_RegDef_t*) RCC_BASEADDR)
 #define EXTI						((EXTI_RegDef_t*) EXTI_BASEADDR)
+#define SYSCFG						((SYSCFG_RegDef_t*) SYSCFG_BASEADDR)
 
 
-/*** Peripheral clock enable pointers ***/
+/*** Peripheral clock enable and disable macros ***/
 /*** Clock enable macros for GPIOx (AHB1) ***/
 #define GPIOA_PCLK_EN()				(RCC->AHB1ENR |= (1 << 0))
 #define GPIOB_PCLK_EN()				(RCC->AHB1ENR |= (1 << 1))
@@ -217,13 +286,13 @@ typedef struct {
 #define USART6_PCLK_DI()			(RCC->APB2ENR &= ~(1 << 5))
 
 
-/*** Clock enable macros for SYSCFG (APB2) ***/
+/*** Clock enable macro for SYSCFG (APB2) ***/
 #define SYSCFG_PCLK_EN()			(RCC->APB2ENR |= (1 << 14))
-/*** Clock disable macros for SYSCFG ***/
+/*** Clock disable macro for SYSCFG ***/
 #define SYSCFG_PCLK_DI()			(RCC->APB2ENR &= ~(1 << 14))
 
 
-/*** GPIOx register resets ***/
+/*** GPIOx register reset macros ***/
 #define GPIOA_REG_RESET()			do { (RCC->AHB1ENR |= (1 << 0)); (RCC->AHB1RSTR &= ~(1 << 0)); } while(0)
 #define GPIOB_REG_RESET()			do { (RCC->AHB1ENR |= (1 << 1)); (RCC->AHB1RSTR &= ~(1 << 1)); } while(0)
 #define GPIOC_REG_RESET()			do { (RCC->AHB1ENR |= (1 << 2)); (RCC->AHB1RSTR &= ~(1 << 2)); } while(0)
@@ -235,6 +304,16 @@ typedef struct {
 #define GPIOI_REG_RESET()			do { (RCC->AHB1ENR |= (1 << 8)); (RCC->AHB1RSTR &= ~(1 << 8)); } while(0)
 
 
+/*** IRQ positions of various EXTI ***/
+#define IRQ_NO_EXT0					6
+#define IRQ_NO_EXT1					7
+#define IRQ_NO_EXT2					8
+#define IRQ_NO_EXT3					9
+#define IRQ_NO_EXT4					10
+#define IRQ_NO_EXT9_5				23
+#define IRQ_NO_EXT15_10				40
+
+
 /*** Other macros ***/
 #define ENABLED 					1
 #define DISABLED					0
@@ -242,6 +321,18 @@ typedef struct {
 #define RESET						DISABLED
 #define GPIO_PIN_SET				SET
 #define GPIO_PIN_RESET				RESET
+
+
+/*** Return 4-bit code for GPIO port address ***/
+#define GPIO_BASEADDR_TO_CODE(x) 	((x == GPIOA) ? 0 : \
+									(x == GPIOB) ? 1 : \
+									(x == GPIOC) ? 2 : \
+									(x == GPIOD) ? 3 : \
+									(x == GPIOE) ? 4 : \
+									(x == GPIOF) ? 5 : \
+									(x == GPIOG) ? 6 : \
+									(x == GPIOH) ? 7 : \
+									(x == GPIOI) ? 8 : 0)
 
 
 #include "stm32f407_gpio_driver.h"
