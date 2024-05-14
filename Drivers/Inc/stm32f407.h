@@ -35,6 +35,28 @@
 #define NVIC_ICER7_BASEADDR			0xE000E19CU
 
 
+/*** NVIC Set-pending register addresses ***/
+#define NVIC_ISPR0_BASEADDR			0XE000E200U
+#define NVIC_ISPR1_BASEADDR			0XE000E204U
+#define NVIC_ISPR2_BASEADDR			0XE000E208U
+#define NVIC_ISPR3_BASEADDR			0XE000E20CU
+#define NVIC_ISPR4_BASEADDR			0XE000E210U
+#define NVIC_ISPR5_BASEADDR			0XE000E214U
+#define NVIC_ISPR6_BASEADDR			0XE000E218U
+#define NVIC_ISPR7_BASEADDR			0XE000E21CU
+
+
+/*** NVIC Clear-pending register addresses ***/
+#define NVIC_ICPR0_BASEADDR			0XE000E280U
+#define NVIC_ICPR1_BASEADDR			0XE000E284U
+#define NVIC_ICPR2_BASEADDR			0XE000E288U
+#define NVIC_ICPR3_BASEADDR			0XE000E28CU
+#define NVIC_ICPR4_BASEADDR			0XE000E290U
+#define NVIC_ICPR5_BASEADDR			0XE000E294U
+#define NVIC_ICPR6_BASEADDR			0XE000E298U
+#define NVIC_ICPR7_BASEADDR			0XE000E29CU
+
+
 /*** NVIC Priority register addresses (60 total) ***/
 #define NVIC_IPR0_BASEADDR			0xE000E400U
 #define NVIC_IPR59_BASEADDR			0xE000E4EFU
@@ -69,7 +91,7 @@
 #define NO_IPR_BITS_VALID			4
 
 
-/*** MCU SPECIFIC MACROS ***/
+/*** STM32F407 MCU SPECIFIC MACROS ***/
 /*** Flash addresses of MCU memories, e.g. Flash, SRAM1, SRAM2, ROM ***/
 #define FLASH_BASEADRR				0x08000000U // Sector 0 start
 #define ROM_BASEADDR				0x1FFF0000U // System memory start
@@ -190,12 +212,12 @@ typedef struct
 
 /*** EXTI configuration registers ***/
 typedef struct {
-	__vo uint32_t IMR;
-	__vo uint32_t EMR;
-	__vo uint32_t RTSR;
-	__vo uint32_t FTSR;
-	__vo uint32_t SWIER;
-	__vo uint32_t PR;
+	__vo uint32_t IMR;				// Interrupt mask register
+	__vo uint32_t EMR;				// Event mask register
+	__vo uint32_t RTSR;				// Rising trigger selection register
+	__vo uint32_t FTSR;				// Falling trigger selection register
+	__vo uint32_t SWIER;			// Software interrupt event register
+	__vo uint32_t PR;				// Pending register
 } EXTI_RegDef_t;
 
 
@@ -313,6 +335,25 @@ typedef struct {
 #define IRQ_NO_EXT4					10
 #define IRQ_NO_EXT9_5				23
 #define IRQ_NO_EXT15_10				40
+
+
+/*** NVIC IRQ priorities ***/
+#define NVIC_IRQ_PRI0				0
+#define NVIC_IRQ_PRI1				1
+#define NVIC_IRQ_PRI2				2
+#define NVIC_IRQ_PRI3				3
+#define NVIC_IRQ_PRI4				4
+#define NVIC_IRQ_PRI5				5
+#define NVIC_IRQ_PRI6				6
+#define NVIC_IRQ_PRI7				7
+#define NVIC_IRQ_PRI8				8
+#define NVIC_IRQ_PRI9				9
+#define NVIC_IRQ_PRI10				10
+#define NVIC_IRQ_PRI11				11
+#define NVIC_IRQ_PRI12				12
+#define NVIC_IRQ_PRI13				13
+#define NVIC_IRQ_PRI14				14
+#define NVIC_IRQ_PRI15				15
 
 
 /*** Other macros ***/
