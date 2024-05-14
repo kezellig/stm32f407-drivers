@@ -35,26 +35,21 @@
 #define NVIC_ICER7_BASEADDR			0xE000E19CU
 
 
-/*** NVIC Priority register addresses (60 interrupts) ***/
+/*** NVIC Priority register addresses (60 total) ***/
 #define NVIC_IPR0_BASEADDR			0xE000E400U
-#define NVIC_IPR1_BASEADDR			0xE000E404U
-#define NVIC_IPR2_BASEADDR			0xE000E408U
-#define NVIC_IPR3_BASEADDR			0xE000E40CU
-#define NVIC_IPR4_BASEADDR			0xE000E410U
-#define NVIC_IPR5_BASEADDR			0xE000E414U
-#define NVIC_IPR6_BASEADDR			0xE000E418U
-#define NVIC_IPR7_BASEADDR			0xE000E41CU
+#define NVIC_IPR59_BASEADDR			0xE000E4EFU
+#define NVIC_IPR_BASEADDR			NVIC_IPR0_BASEADDR
 
 
 /*** NVIC Set-enable registers ***/
 #define NVIC_ISER0					((__vo uint32_t*) NVIC_ISER0_BASEADDR)
-#define NVIC_ISER1					((__vo uint32_t*) NVIC_ISER0_BASEADDR)
-#define NVIC_ISER2					((__vo uint32_t*) NVIC_ISER0_BASEADDR)
-#define NVIC_ISER3					((__vo uint32_t*) NVIC_ISER0_BASEADDR)
-#define NVIC_ISER4					((__vo uint32_t*) NVIC_ISER0_BASEADDR)
-#define NVIC_ISER5					((__vo uint32_t*) NVIC_ISER0_BASEADDR)
-#define NVIC_ISER6					((__vo uint32_t*) NVIC_ISER0_BASEADDR)
-#define NVIC_ISER7					((__vo uint32_t*) NVIC_ISER0_BASEADDR)
+#define NVIC_ISER1					((__vo uint32_t*) NVIC_ISER1_BASEADDR)
+#define NVIC_ISER2					((__vo uint32_t*) NVIC_ISER2_BASEADDR)
+#define NVIC_ISER3					((__vo uint32_t*) NVIC_ISER3_BASEADDR)
+#define NVIC_ISER4					((__vo uint32_t*) NVIC_ISER4_BASEADDR)
+#define NVIC_ISER5					((__vo uint32_t*) NVIC_ISER5_BASEADDR)
+#define NVIC_ISER6					((__vo uint32_t*) NVIC_ISER6_BASEADDR)
+#define NVIC_ISER7					((__vo uint32_t*) NVIC_ISER7_BASEADDR)
 
 
 /*** NVIC Clear-enable registers ***/
@@ -66,6 +61,12 @@
 #define NVIC_ICER5					((__vo uint32_t*) NVIC_ICER5_BASEADDR)
 #define NVIC_ICER6					((__vo uint32_t*) NVIC_ICER6_BASEADDR)
 #define NVIC_ICER7					((__vo uint32_t*) NVIC_ICER7_BASEADDR)
+
+
+/*** NVIC Priority registers ***/
+#define NVIC_IPR					((__vo uint32_t*) NVIC_IPR_BASEADDR)
+/*** Number of interrupt priority bits implemented ***/
+#define NO_IPR_BITS_VALID			4
 
 
 /*** MCU SPECIFIC MACROS ***/

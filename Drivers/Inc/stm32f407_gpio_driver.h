@@ -112,7 +112,8 @@ void GPIO_ToggleOutputPin(GPIO_RegDef_t *p_GPIOx, uint8_t PinNumber);
 
 // Interrupt configuration and handling
 // Configue IRQ number of the GPIO pin, handling->user app calls IRQ handling to process interrupt (ISR)
-void GPIO_IRQConfig(uint8_t IRQNumber, uint8_t EnDi);
+void GPIO_IRQActivationConfig(uint8_t IRQNumber, uint8_t EnDi);
+void GPIO_IRQPriorityConfig(uint8_t IRQNumber, uint8_t IRQPriority);
 void GPIO_IRQHandling(uint8_t PinNumber);
 
 
