@@ -8,23 +8,24 @@
 
 #include "stm32f407.h"
 
+
 // Configuration properties of a GPIO pin in a struct
 typedef struct
 {
 	uint8_t GPIO_PinNumber; 		// Values from @GPIO_PIN_NUMBERS
 	uint8_t GPIO_PinMode;			// Values from @GPIO_PIN_MODES
-	uint8_t GPIO_PinPuPdControl; 	// Values from @GPIO_PIN_PUPD
 	uint8_t GPIO_PinOPType; 		// Values from @GPIO_OP_TYPE
 	uint8_t GPIO_PinSpeed;			// Values from @GPIO_OP_SPEEDS
+	uint8_t GPIO_PinPuPdControl; 	// Values from @GPIO_PIN_PUPD
 	uint8_t GPIO_PinAltFunMode; 	// Alternative function mode
 } GPIO_PinConfig_t;
 
 
-// GPIO pin handle - address and config settings
+/*** GPIO pin handle - change port settings + pin settings ***/
 typedef struct
 {
-	GPIO_RegDef_t *p_GPIOx; // Holds base address of the GPIO port to which pin belongs
-	GPIO_PinConfig_t GPIO_PinConfig; // Holds GPIO pin config settings
+	GPIO_RegDef_t *p_GPIOx; // Holds pin's port base address
+	GPIO_PinConfig_t GPIO_PinConfig; // Holds pin's settings
 } GPIO_Handle_t;
 
 
@@ -52,29 +53,21 @@ typedef struct
 
 /**
  * @GPIO_PIN_MODES
- * GPIO pin modes
+ * GPIO pin modes as defined by GPIOx_MODER register
+ * Note: GPIO_MODE_IT are special interrupt modes
  */
 #define GPIO_MODE_IN 		0
 #define GPIO_MODE_OUT 		1
 #define GPIO_MODE_ALTFN 	2
-#define GPIO_MODE_ANALOG 	3
+#define GPIO_MODE_ANALOGUE 	3
 #define GPIO_MODE_IT_FT  	4
 #define GPIO_MODE_IT_RT		5
 #define GPIO_MODE_IT_RFT	6
 
 
 /**
- * @GPIO_PIN_PUPD
- * GPIO pin pullup and pulldown
- */
-#define GPIO_PIN_NO_PUPD	0
-#define GPIO_PIN_PU			1
-#define GPIO_PIN_PD			2
-
-
-/**
- * @GPIO_OP_TYPES
- * GPIO output types
+ * @GPIO_OP_TYPE
+ * GPIOx_OTYPER - GPIO output types
  */
 #define GPIO_OP_TYPE_PP		0
 #define GPIO_OP_TYPE_OD		1
@@ -90,17 +83,26 @@ typedef struct
 #define GPIO_SPEED_HIGH		3
 
 
-// Driver's GPIO APIs
-// Peripheral clock setup
+/**
+ * @GPIO_PIN_PUPD
+ * GPIO pin pullup and pulldown
+ */
+#define GPIO_PIN_NO_PUPD	0
+#define GPIO_PIN_PU			1
+#define GPIO_PIN_PD			2
+
+
+/*** GPIO APIs ***/
+/*** Enable/disable peripheral clock for a port ***/
 void GPIO_PClockControl(GPIO_RegDef_t *p_GPIOx, uint8_t EnDi);
 
 
-// Init/DeInit
+/*** Initialise/reset port ***/
 void GPIO_Init(GPIO_Handle_t *p_GPIO_Handle);
-void GPIO_DeInit(GPIO_RegDef_t *p_GPIOx); // We don't need additional configs to reset, just address
+void GPIO_DeInit(GPIO_RegDef_t *p_GPIOx);
 
 
-// Data R/W
+/*** Read/write from pin or port ***/
 uint8_t GPIO_ReadFromInputPin(GPIO_RegDef_t *p_GPIOx, uint8_t PinNumber);
 uint16_t GPIO_ReadFromInputPort(GPIO_RegDef_t *p_GPIOx);
 void GPIO_WriteToOutputPin(GPIO_RegDef_t *p_GPIOx, uint8_t PinNumber, uint8_t Value);
@@ -109,7 +111,8 @@ void GPIO_ToggleOutputPin(GPIO_RegDef_t *p_GPIOx, uint8_t PinNumber);
 
 
 // Interrupt configuration and handling
-void GPIO_IRQConfig(uint8_t IRQNumber, uint8_t IRQPriority, uint8_t EnDi);
+// Configue IRQ number of the GPIO pin, handling->user app calls IRQ handling to process interrupt (ISR)
+void GPIO_IRQConfig(uint8_t IRQNumber, uint8_t EnDi);
 void GPIO_IRQHandling(uint8_t PinNumber);
 
 
