@@ -122,10 +122,12 @@ void GPIO_Init(GPIO_Handle_t *p_GPIOHandle) {
 	temp = 0;
 
 	// Output type select - 1 bit field
-	temp = (p_GPIOHandle->GPIO_PinConfig.GPIO_PinOPType << p_GPIOHandle->GPIO_PinConfig.GPIO_PinNumber);
-	p_GPIOHandle->p_GPIOx->OTYPER &= ~(1 << p_GPIOHandle->GPIO_PinConfig.GPIO_PinNumber);
-	p_GPIOHandle->p_GPIOx->OTYPER |= temp;
-	temp = 0;
+	if (p_GPIOHandle->GPIO_PinConfig.GPIO_PinMode <= GPIO_MODE_OUT) {
+		temp = (p_GPIOHandle->GPIO_PinConfig.GPIO_PinOPType << p_GPIOHandle->GPIO_PinConfig.GPIO_PinNumber);
+		p_GPIOHandle->p_GPIOx->OTYPER &= ~(1 << p_GPIOHandle->GPIO_PinConfig.GPIO_PinNumber);
+		p_GPIOHandle->p_GPIOx->OTYPER |= temp;
+		temp = 0;
+	}
 
 	// Alternate functionality select - 4 bit fields
 	// Configure AF if GPIO_PinMode is indeed set to AF
@@ -266,7 +268,7 @@ void GPIO_IRQActivationConfig(uint8_t IRQNumber, uint8_t EnDi) {
  * @param IRQNumber: number of the interrupt
  * @param IRQPriority: priority to set the interrupt
  */
-void GPIO_IRQPriorityConfig(uint8_t IRQNumber, uint8_t IRQPriority) {
+void GPIO_IRQPriorityConfig(uint8_t IRQNumber, uint32_t IRQPriority) {
 	uint8_t reg_num = IRQNumber / 4;
 	uint8_t irq_num = IRQNumber % 4;
 
@@ -276,6 +278,15 @@ void GPIO_IRQPriorityConfig(uint8_t IRQNumber, uint8_t IRQPriority) {
 }
 
 
+/**
+ * Handle an interrupt event
+ * The default interrupt handler is just an infinite loop
+ * @param PinNumber: number of the pin to clear interrupt trigger for
+ */
 void GPIO_IRQHandling(uint8_t PinNumber) {
+	// Clear EXTI pending register's pin number bit
+	if (EXTI->PR & (1 << PinNumber)) {
+		EXTI->PR |= (1 << PinNumber);
+	}
 
 }
