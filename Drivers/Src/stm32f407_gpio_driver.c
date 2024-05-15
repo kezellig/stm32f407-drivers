@@ -274,7 +274,7 @@ void GPIO_IRQPriorityConfig(uint8_t IRQNumber, uint32_t IRQPriority) {
 
 	// Account for unimplemented lower 4 bits in register
 	uint8_t shift_num = irq_num * 8 + (8 - NO_IPR_BITS_VALID);
-	*(NVIC_IPR + reg_num * 4) |= (IRQPriority << shift_num);
+	*(NVIC_IPR + reg_num) |= (IRQPriority << shift_num);
 }
 
 
