@@ -147,9 +147,6 @@
 
 /*** APB2 Bus peripherals ***/
 #define SPI1_BASEADDR				(APB2PERIPH_BASEADDR + 0x3000)
-#define SPI4_BASEADDR				(APB2PERIPH_BASEADDR + 0x3400)
-#define SPI5_BASEADDR				(APB2PERIPH_BASEADDR + 0x5000)
-#define SPI6_BASEADDR				(APB2PERIPH_BASEADDR + 0x5400)
 
 #define USART1_BASEADDR				(APB2PERIPH_BASEADDR + 0x1000)
 #define USART6_BASEADDR				(APB2PERIPH_BASEADDR + 0x1400)
@@ -261,9 +258,6 @@ typedef struct {
 #define SPI1						((SPI_RegDef_t*) SPI1_BASEADDR)
 #define SPI2						((SPI_RegDef_t*) SPI2_BASEADDR)
 #define SPI3						((SPI_RegDef_t*) SPI3_BASEADDR)
-#define SPI4						((SPI_RegDef_t*) SPI4_BASEADDR)
-#define SPI5						((SPI_RegDef_t*) SPI5_BASEADDR)
-#define SPI6						((SPI_RegDef_t*) SPI6_BASEADDR)
 
 
 /*** RCC, EXTI registers pointers ***/
@@ -309,16 +303,10 @@ typedef struct {
 #define SPI1_PCLK_EN()				(RCC->APB2ENR |= (1 << 12))
 #define SPI2_PCLK_EN()				(RCC->APB1ENR |= (1 << 14))
 #define SPI3_PCLK_EN()				(RCC->APB1ENR |= (1 << 15))
-#define SPI4_PCLK_EN()				(RCC->APB2ENR |= (1 << 13))
-#define SPI5_PCLK_EN()				(RCC->APB2ENR |= (1 << 20))
-#define SPI6_PCLK_EN()				(RCC->APB2ENR |= (1 << 21))
 /*** Clock disable macros for SPIx ***/
 #define SPI1_PCLK_DI()				(RCC->APB2ENR &= ~(1 << 12))
 #define SPI2_PCLK_DI()				(RCC->APB1ENR &= ~(1 << 14))
 #define SPI3_PCLK_DI()				(RCC->APB1ENR &= ~(1 << 15))
-#define SPI4_PCLK_DI()				(RCC->APB2ENR &= ~(1 << 13))
-#define SPI5_PCLK_DI()				(RCC->APB2ENR &= ~(1 << 20))
-#define SPI6_PCLK_DI()				(RCC->APB2ENR &= ~(1 << 21))
 
 
 /*** Clock enable macros for USARTx (APB2, APB1) ***/
@@ -353,6 +341,12 @@ typedef struct {
 #define GPIOG_REG_RESET()			do { (RCC->AHB1ENR |= (1 << 6)); (RCC->AHB1RSTR &= ~(1 << 6)); } while(0)
 #define GPIOH_REG_RESET()			do { (RCC->AHB1ENR |= (1 << 7)); (RCC->AHB1RSTR &= ~(1 << 7)); } while(0)
 #define GPIOI_REG_RESET()			do { (RCC->AHB1ENR |= (1 << 8)); (RCC->AHB1RSTR &= ~(1 << 8)); } while(0)
+
+
+/*** SPIx register reset macros ***/
+#define SPI1_RESET()				do { (RCC->APB2ENR &= ~(1 << 12)); (RCC->APB2RSTR &= ~(1 << 12)); } while (0)
+#define SPI2_RESET()				do { (RCC->APB1ENR &= ~(1 << 14)); (RCC->APB1RSTR &= ~(1 << 14)); } while (0)
+#define SPI3_RESET()				do { (RCC->APB1ENR &= ~(1 << 15)); (RCC->APB1RSTR &= ~(1 << 15)); } while (0)
 
 
 /*** IRQ positions of various EXTI ***/
@@ -406,4 +400,6 @@ typedef struct {
 
 
 #include "stm32f407_gpio_driver.h"
+#include "stm32f407_spi_driver.h"
+
 #endif /* INC_STM32F407_DRIVERS_H_ */
