@@ -9,7 +9,7 @@
 #include "stm32f407.h"
 
 
-// Configuration properties of a GPIO pin in a struct
+/*** User configuration struct Eof GPIO pin properties ***/
 typedef struct
 {
 	uint8_t GPIO_PinNumber; 		// Values from @GPIO_PIN_NUMBERS
@@ -98,7 +98,7 @@ void GPIO_PClockControl(GPIO_RegDef_t *p_GPIOx, uint8_t EnDi);
 
 
 /*** Initialise/reset port ***/
-void GPIO_Init(GPIO_Handle_t *p_GPIO_Handle);
+void GPIO_Init(GPIO_Handle_t *p_GPIOHandle);
 void GPIO_DeInit(GPIO_RegDef_t *p_GPIOx);
 
 
