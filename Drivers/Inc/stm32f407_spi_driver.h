@@ -26,4 +26,26 @@ typedef struct {
 	SPI_Config_t SPI_Config;	// User-defined SPI settings
 } SPI_Handle_t;
 
+
+/*** SPI APIs ***/
+/*** Enable/disable peripheral clock for SPI ***/
+void SPI_PClockControl(SPI_RegDef_t *p_SPIx, uint8_t EnDi);
+
+
+/*** Initialise/reset SPI peripheral ***/
+void SPI_Init(SPI_Handle_t *p_SPIHandle);
+void SPI_DeInit(SPI_RegDef_t *p_SPIx);
+
+
+/*** Read/write using SPI ***/
+void SPI_Send(SPI_RegDef_t *p_SPIx, uint8_t p_TxBuffer, uint32_t Length);
+void SPI_Receive(SPI_RegDef_t *p_SPIx, uint8_t p_RxBuffer, uint32_t Length);
+
+
+/*** Interrupt configuration and handling ***/
+void SPI_IRQActivationConfig(uint8_t IRQNumber, uint8_t EnDi);
+void SPI_IRQPriorityConfig(uint8_t IRQNumber, uint32_t IRQPriority);
+void SPI_IRQHandling(SPI_Handle_t *p_SPIHandle);
+
+
 #endif /* INC_STM32F407_SPI_DRIVER_H_ */
