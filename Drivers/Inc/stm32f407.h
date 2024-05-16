@@ -160,8 +160,7 @@
 
 /*** Peripheral register definitions ***/
 /*** GPIO per-port configuration registers ***/
-typedef struct
-{
+typedef struct {
 	__vo uint32_t MODER;			// GPIO port mode; input/output/AF/analogue
 	__vo uint32_t OTYPER;			// GPIO output type; push-pull/open-drain
 	__vo uint32_t OSPEEDR;			// GPIO output speed; l/m/h/vh
@@ -174,9 +173,22 @@ typedef struct
 } GPIO_RegDef_t;
 
 
+/*** SPI system configuration registers ***/
+typedef struct {
+	__vo uint32_t CR1;				// SPI control register 1
+	__vo uint32_t CR2;				// SPI control register 2
+	__vo uint32_t SR;				// SPI status register
+	__vo uint32_t DR;				// SPI data register
+	__vo uint32_t CRCPR;			// SPI CRC polynomial register (not used in I2S mode)
+	__vo uint32_t RXCRCR;			// SPI RX CRC register (not used in I2S mode)
+	__vo uint32_t TXCRCR;			// SPI TX CRC register (not used in I2S mode)
+	__vo uint32_t I2SCFGR;			// SPI_I2S configuration register
+	__vo uint32_t I2SPR;			// SPI_I2S prescaler register
+} SPI_RegDef_t;
+
+
 /*** RCC configuration registers ***/
-typedef struct
-{
+typedef struct {
 	__vo uint32_t CR;				// RCC clock control register
 	__vo uint32_t PLLCFGR;			// RCC PLL configuration register
 	__vo uint32_t CFGR;				// RCC clock configuration register
@@ -232,6 +244,7 @@ typedef struct {
 } SYSCFG_RegDef_t;
 
 
+/*** Peripheral pointers ***/
 /*** GPIO port register pointers ***/
 #define GPIOA						((GPIO_RegDef_t*) GPIOA_BASEADDR)
 #define GPIOB						((GPIO_RegDef_t*) GPIOB_BASEADDR)
@@ -242,6 +255,15 @@ typedef struct {
 #define GPIOG						((GPIO_RegDef_t*) GPIOG_BASEADDR)
 #define GPIOH						((GPIO_RegDef_t*) GPIOH_BASEADDR)
 #define GPIOI						((GPIO_RegDef_t*) GPIOI_BASEADDR)
+
+
+/*** SPI register pointers ***/
+#define SPI1						((SPI_RegDef_t*) SPI1_BASEADDR)
+#define SPI2						((SPI_RegDef_t*) SPI2_BASEADDR)
+#define SPI3						((SPI_RegDef_t*) SPI3_BASEADDR)
+#define SPI4						((SPI_RegDef_t*) SPI4_BASEADDR)
+#define SPI5						((SPI_RegDef_t*) SPI5_BASEADDR)
+#define SPI6						((SPI_RegDef_t*) SPI6_BASEADDR)
 
 
 /*** RCC, EXTI registers pointers ***/
@@ -287,10 +309,16 @@ typedef struct {
 #define SPI1_PCLK_EN()				(RCC->APB2ENR |= (1 << 12))
 #define SPI2_PCLK_EN()				(RCC->APB1ENR |= (1 << 14))
 #define SPI3_PCLK_EN()				(RCC->APB1ENR |= (1 << 15))
+#define SPI4_PCLK_EN()				(RCC->APB2ENR |= (1 << 13))
+#define SPI5_PCLK_EN()				(RCC->APB2ENR |= (1 << 20))
+#define SPI6_PCLK_EN()				(RCC->APB2ENR |= (1 << 21))
 /*** Clock disable macros for SPIx ***/
 #define SPI1_PCLK_DI()				(RCC->APB2ENR &= ~(1 << 12))
 #define SPI2_PCLK_DI()				(RCC->APB1ENR &= ~(1 << 14))
 #define SPI3_PCLK_DI()				(RCC->APB1ENR &= ~(1 << 15))
+#define SPI4_PCLK_DI()				(RCC->APB2ENR &= ~(1 << 13))
+#define SPI5_PCLK_DI()				(RCC->APB2ENR &= ~(1 << 20))
+#define SPI6_PCLK_DI()				(RCC->APB2ENR &= ~(1 << 21))
 
 
 /*** Clock enable macros for USARTx (APB2, APB1) ***/
