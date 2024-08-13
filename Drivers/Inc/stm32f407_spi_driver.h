@@ -68,9 +68,10 @@ typedef struct {
 
 /**
  * @SPI_SSM
+ * Software Slave Management
  */
-#define SPI_SSM_SW					0
-#define SPI_SSM_HW					1
+#define SPI_SSM_DI					0
+#define SPI_SSM_EN 					1
 
 
 /**
@@ -98,7 +99,7 @@ void SPI_Init(SPI_Handle_t *p_SPIHandle);
 void SPI_DeInit(SPI_RegDef_t *p_SPIx);
 
 
-/*** Read/write using SPI ***/
+/*** Read/write using SPI in a blocking way ***/
 void SPI_Send(SPI_RegDef_t *p_SPIx, uint8_t p_TxBuffer, uint32_t Length);
 void SPI_Receive(SPI_RegDef_t *p_SPIx, uint8_t p_RxBuffer, uint32_t Length);
 
