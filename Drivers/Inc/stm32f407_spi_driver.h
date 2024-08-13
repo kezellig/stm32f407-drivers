@@ -89,6 +89,20 @@ typedef struct {
 #define SPI_CLKSPEED_DIV256			7
 
 
+/**
+ * SPI Status Masks
+ */
+#define SPI_RXNE_STATUS				(1 << SPI_SR_RXNE)
+#define SPI_TXE_STATUS				(1 << SPI_SR_TXE)
+#define SPI_CHSIDE_STATUS			(1 << SPI_SR_TXE)
+#define SPI_UDR_STATUS				(1 << SPI_SR_UDR)
+#define SPI_CRCERR_STATUS			(1 << SPI_SR_CRCERR)
+#define SPI_MODF_STATUS				(1 << SPI_SR_MODF)
+#define SPI_OVR_STATUS				(1 << SPI_SR_OVR)
+#define SPI_BSY_STATUS				(1 << SPI_SR_BSY)
+#define SPI_FRE_STATUS				(1 << SPI_SR_FRE)
+
+
 /*** SPI APIs ***/
 /*** Enable/disable peripheral clock for SPI ***/
 void SPI_PClockControl(SPI_RegDef_t *p_SPIx, uint8_t EnDi);
@@ -100,7 +114,7 @@ void SPI_DeInit(SPI_RegDef_t *p_SPIx);
 
 
 /*** Read/write using SPI in a blocking way ***/
-void SPI_Send(SPI_RegDef_t *p_SPIx, uint8_t p_TxBuffer, uint32_t Length);
+void SPI_Send(SPI_RegDef_t *p_SPIx, uint8_t *p_TxBuffer, uint32_t Length);
 void SPI_Receive(SPI_RegDef_t *p_SPIx, uint8_t p_RxBuffer, uint32_t Length);
 
 

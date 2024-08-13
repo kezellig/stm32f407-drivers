@@ -385,6 +385,8 @@ typedef struct {
 #define RESET						DISABLED
 #define GPIO_PIN_SET				SET
 #define GPIO_PIN_RESET				RESET
+#define SPI_STATUS_SET				SET
+#define SPI_STATUS_RESET			RESET
 
 
 /*** Return 4-bit code for GPIO port address ***/
@@ -428,7 +430,7 @@ typedef struct {
 
 
 /*** SPI register SR ***/
-#define SPI_SR_RXE					0
+#define SPI_SR_RXNE					0
 #define SPI_SR_TXE					1
 #define SPI_SR_CHSIDE				2
 #define SPI_SR_UDR					3
